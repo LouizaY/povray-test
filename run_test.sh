@@ -1,4 +1,5 @@
 #!/bin/bash
+
 # start counter
 START_TIME=$SECONDS
 

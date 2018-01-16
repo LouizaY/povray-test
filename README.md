@@ -1,11 +1,10 @@
 # POV-Ray-test
-Test based on Umbrella PovRAY datasets https://curate.nd.edu/show/3n203x8348g
+Test based on Umbrella POV-Ray datasets https://curate.nd.edu/show/3n203x8348g
 
 # Run the script:
 ```console
 $ time ./run_test.sh
 ```
-
 Sample output:
 
 ```console
@@ -21,4 +20,9 @@ Elapsed time: 153 seconds
 real    2m32.078s
 user    0m1.032s
 sys     0m0.260s
+```
+
+# Run tests in a loop
+```console
+$ time ./run_test_multiple.sh 1000
 ```

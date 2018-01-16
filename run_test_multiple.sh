@@ -2,7 +2,7 @@
 
 DOCKER_IMAGE="bradleybossard/docker-povray"
 CONTAINER_NAME="povray"
-OUTPUT_FILE_NAME="output-$SECONDS.csv"
+OUTPUT_FILE_NAME="output-$(date +%j-%H-%M-%S).csv"
 NBR_LOOPS=$1
 
 # test if the number of loops to execute is less than 1

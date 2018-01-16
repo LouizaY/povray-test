@@ -2,19 +2,26 @@
 
 DOCKER_IMAGE="bradleybossard/docker-povray"
 CONTAINER_NAME="povray"
+OUTPUT_FILE_NAME="output-$SECONDS.csv"
 NBR_LOOPS=$1
 
 # test if the number of loops to execute is less than 1
 if [[ "$NBR_LOOPS" -lt "1" || "$NBR_LOOPS" == "" ]] ; then
-  echo "ERROR: The number of loops should be bigger that 1"
+  echo "==> error: the number of loops should be bigger that 1"
   exit 1
 fi
 
-echo "Do $NBR_LOOPS loops"
+# create new output file
+touch $OUTPUT_FILE_NAME
+
+# start the test
+echo "==> do $NBR_LOOPS loops"
+
+START_TIME_TOTAL=$SECONDS
 
 for i in $(seq $NBR_LOOPS) ; do
   # start counter
-  START_TIME=$SECONDS
+  START_TIME_TEST=$SECONDS
 
   # install wget and get datasets from curate
   apt-get install wget -y > /dev/null
@@ -38,9 +45,15 @@ for i in $(seq $NBR_LOOPS) ; do
   docker rmi $DOCKER_IMAGE > /dev/null
 
   # stop counter
-  ELAPSED_TIME=$(($SECONDS - $START_TIME))
+  ELAPSED_TIME=$(($SECONDS - $START_TIME_TEST))
 
   # display time
-  echo "Loop $i | elapsed time (s): $ELAPSED_TIME"
+  echo "==> loop $i | elapsed time (s): $ELAPSED_TIME"
+  
+  # write time in output file
+  echo "$i $ELAPSED_TIME" >> $OUTPUT_FILE_NAME
 done
 
+# display final message
+echo "==> number of loops: $NBR_LOOPS"
+echo "==> total time: $(($SECONDS - $START_TIME_TOTAL))"

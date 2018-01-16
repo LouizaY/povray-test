@@ -17,5 +17,5 @@ docker run -it --rm -v $PWD:/src bradleybossard/docker-povray /bin/bash -c "cd /
 ELAPSED_TIME=$(($SECONDS - $START_TIME))
 
 # display time
-echo "Elapsed time: $ELAPSED_TIME"
+echo "Elapsed time: $ELAPSED_TIME seconds"
 

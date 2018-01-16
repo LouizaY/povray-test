@@ -5,8 +5,14 @@ START_TIME=$SECONDS
 
 # install wget and get datasets from curate
 apt-get install wget -y
-wget https://curate.nd.edu/downloads/7h149p3117b -O WRC_RubiksCube.inc
-wget https://curate.nd.edu/downloads/7d278s47r65 -O 4_cubes.pov
+
+# test if datasets exist
+if [ ! -f WRC_RubiksCube.inc ]; then
+  wget https://curate.nd.edu/downloads/7h149p3117b -O WRC_RubiksCube.inc
+fi
+if [ ! -f 4_cubes.pov ]; then
+  wget https://curate.nd.edu/downloads/7d278s47r65 -O 4_cubes.pov
+fi
 
 # pull a latest PovRAY docker image
 docker pull bradleybossard/docker-povray

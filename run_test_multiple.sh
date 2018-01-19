@@ -42,6 +42,7 @@ for i in $(seq $NBR_LOOPS) ; do
 
   # remove docker container and image
   docker rm -f $CONTAINER_NAME > /dev/null
+  # comment this line to use local cache
   docker rmi $DOCKER_IMAGE > /dev/null
 
   # stop counter

@@ -3,6 +3,7 @@
 DOCKER_IMAGE="bradleybossard/docker-povray"
 CONTAINER_NAME="povray"
 OUTPUT_FILE_NAME="output-$(date +%j-%H-%M-%S).csv"
+FRAME_FILE_SUFFIX="$(date +%j-%H-%M-%S).png"
 NBR_LOOPS=$1
 
 # test if the number of loops to execute is less than 1
@@ -24,26 +25,23 @@ for i in $(seq $NBR_LOOPS) ; do
   START_TIME_TEST=$SECONDS
 
   # install wget and get datasets from curate
-  apt-get install wget -y > /dev/null
+  apt-get install wget -y
 
-  # test if datasets exist
-  if [[ ! -f WRC_RubiksCube.inc ]]; then
-    wget https://curate.nd.edu/downloads/7h149p3117b -O WRC_RubiksCube.inc > /dev/null
-  fi
-  if [[ ! -f 4_cubes.pov ]]; then
-    wget https://curate.nd.edu/downloads/7d278s47r65 -O 4_cubes.pov > /dev/null
-  fi
-
+  # always download datasets
+  wget https://curate.nd.edu/downloads/7h149p3117b -O WRC_RubiksCube.inc
+  wget https://curate.nd.edu/downloads/7d278s47r65 -O 4_cubes.pov
+  
   # pull a latest PovRAY docker image
-  docker pull $DOCKER_IMAGE > /dev/null
+  docker pull $DOCKER_IMAGE
 
   # run the test
-  docker run -d --name $CONTAINER_NAME -v $PWD:/src $DOCKER_IMAGE /bin/bash -c "cd /src; ls -l; povray +I4_cubes.pov +Oframe000.png +K.0  -H7500 -W7500" > /dev/null
+  docker run -it --rm --name $CONTAINER_NAME -v $PWD:/src $DOCKER_IMAGE /bin/bash -c "cd /src; ls -l; povray +I4_cubes.pov +Oframe-$i-$FRAME_FILE_SUFFIX +K.0  -H7500 -W7500"
 
   # remove docker container and image
-  docker rm -f $CONTAINER_NAME > /dev/null
+  #docker rm -f $CONTAINER_NAME > /dev/null
   # comment this line to use local cache
-  docker rmi $DOCKER_IMAGE > /dev/null
+  docker rmi $DOCKER_IMAGE
+  rm WRC_RubiksCube.inc 4_cubes.pov
 
   # stop counter
   ELAPSED_TIME=$(($SECONDS - $START_TIME_TEST))
@@ -57,4 +55,4 @@ done
 
 # display final message
 echo "==> number of loops: $NBR_LOOPS"
-echo "==> total time: $(($SECONDS - $START_TIME_TOTAL))"
+echo "==> total time: $(($SECONDS - $START_TIME_TOTAL)) seconds"

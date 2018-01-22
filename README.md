@@ -23,9 +23,17 @@ sys     0m0.260s
 ```
 
 # Run tests in a loop
+
+## Without using Docker cache
 ```console
 $ time ./run_test_multiple.sh 1000
 ```
+
+## Using Docker cache
+```console
+$ time ./run_test_multiple_using_cache.sh 1000
+```
+
 Sample output:
 
 ```console
@@ -34,5 +42,5 @@ Sample output:
 ==> loop 99 | elapsed time (s): 365
 ==> loop 100 | elapsed time (s): 634
 ==> number of loops: 100
-==> total time: 64635
+==> total time: 64635 seconds
 ```

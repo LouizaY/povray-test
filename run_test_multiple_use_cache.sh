@@ -2,7 +2,9 @@
 
 DOCKER_IMAGE="bradleybossard/docker-povray"
 CONTAINER_NAME="povray"
-OUTPUT_FILE_NAME="output-$(date +%j-%H-%M-%S).csv"
+OUTF_SUFFIX="$(date +%j-%H-%M-%S)"
+DATA_F="output-$OUTF_SUFFIX.csv"
+FRAME_F="frame-$OUTF_SUFFIX.png"
 NBR_LOOPS=$1
 
 # test if the number of loops to execute is less than 1
@@ -12,7 +14,7 @@ if [[ "$NBR_LOOPS" -lt "1" || "$NBR_LOOPS" == "" ]] ; then
 fi
 
 # create new output file
-touch $OUTPUT_FILE_NAME
+touch $DATA_F
 
 # start the test
 echo "==> do $NBR_LOOPS loops"
@@ -38,7 +40,7 @@ for i in $(seq $NBR_LOOPS) ; do
   docker pull $DOCKER_IMAGE > /dev/null
 
   # run the test
-  docker run -d --name $CONTAINER_NAME -v $PWD:/src $DOCKER_IMAGE /bin/bash -c "cd /src; ls -l; povray +I4_cubes.pov +Oframe000.png +K.0  -H7500 -W7500" > /dev/null
+  docker run -d --name $CONTAINER_NAME -v $PWD:/src $DOCKER_IMAGE /bin/bash -c "cd /src; ls -l; povray +I4_cubes.pov +O$FRAME_F +K.0  -H7500 -W7500" > /dev/null
 
   # remove docker container and image
   docker rm -f $CONTAINER_NAME > /dev/null
@@ -52,9 +54,9 @@ for i in $(seq $NBR_LOOPS) ; do
   echo "==> loop $i | elapsed time (s): $ELAPSED_TIME"
   
   # write time in output file
-  echo "$i $ELAPSED_TIME" >> $OUTPUT_FILE_NAME
+  echo "$i $ELAPSED_TIME" >> $DATA_F
 done
 
 # display final message
 echo "==> number of loops: $NBR_LOOPS"
-echo "==> total time: $(($SECONDS - $START_TIME_TOTAL))"
+echo "==> total time: $(($SECONDS - $START_TIME_TOTAL)) seconds"

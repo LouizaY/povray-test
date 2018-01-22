@@ -26,3 +26,13 @@ sys     0m0.260s
 ```console
 $ time ./run_test_multiple.sh 1000
 ```
+Sample output:
+
+```console
+==> loop 97 | elapsed time (s): 367
+==> loop 98 | elapsed time (s): 568
+==> loop 99 | elapsed time (s): 365
+==> loop 100 | elapsed time (s): 634
+==> number of loops: 100
+==> total time: 64635
+```

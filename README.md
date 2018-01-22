@@ -26,12 +26,12 @@ sys     0m0.260s
 
 ## Without using Docker cache
 ```console
-$ time ./run_test_multiple.sh 1000
+$ ./run_test_multiple.sh 1000
 ```
 
 ## Using Docker cache
 ```console
-$ time ./run_test_multiple_using_cache.sh 1000
+$ ./run_test_multiple_using_cache.sh 1000
 ```
 
 Sample output:

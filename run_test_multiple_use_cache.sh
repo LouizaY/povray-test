@@ -32,7 +32,7 @@ for i in $(seq $NBR_LOOPS) ; do
   START_TIME_TEST=$SECONDS
 
   # install wget and get datasets from curate
-  apt-get install wget -y
+  DEBIAN_FRONTEND=noninteractive apt-get install wget -y
 
   # test if datasets exist
   if [[ ! -f WRC_RubiksCube.inc ]]; then
@@ -48,7 +48,7 @@ for i in $(seq $NBR_LOOPS) ; do
   fi
 
   # run the test
-  docker run -it --rm --name $CONTAINER_NAME -v $PWD:/src $DOCKER_IMAGE /bin/bash -c "cd /src; ls -l; povray +I4_cubes.pov +Oframe-$i-$FRAME_F +K.0  -H7500 -W7500"
+  docker run -it --rm --name $CONTAINER_NAME -v $PWD:/src $DOCKER_IMAGE /bin/bash -c "cd /src; ls -l; povray +I4_cubes.pov +Oframe-$i-$FRAME_F +K.0  -H7500 -W7500; exit 0"
 
   # remove docker container and image
   #docker rm -f $CONTAINER_NAME

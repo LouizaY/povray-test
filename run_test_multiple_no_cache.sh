@@ -18,6 +18,15 @@ if [[ "$DOCKER_IMAGE" == "" ]] ; then
   exit 1
 fi
 
+# install wget
+if [[ "$(which apt-get)" != "" ]] ; then
+  DEBIAN_FRONTEND=noninteractive apt-get install wget -y
+elif [[ "$(which apk)" != "" ]] ; then
+  apk add --update --no-cache wget
+elif [[ "$(which yum)" != "" ]] ; then
+  yum -y install wget
+fi
+
 # create new output file
 touch $OUTPUT_FILE_NAME
 
@@ -29,9 +38,6 @@ START_TIME_TOTAL=$SECONDS
 for i in $(seq $NBR_LOOPS) ; do
   # start counter
   START_TIME_TEST=$SECONDS
-
-  # install wget and get datasets from curate
-  DEBIAN_FRONTEND=noninteractive apt-get install wget -y
 
   # always download datasets
   wget https://curate.nd.edu/downloads/7h149p3117b -O WRC_RubiksCube.inc

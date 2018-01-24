@@ -1,15 +1,21 @@
 #!/bin/bash
 
-DOCKER_IMAGE="bradleybossard/docker-povray"
 CONTAINER_NAME="povray"
 OUTF_SUFFIX="$(date +%j-%H-%M-%S)"
 DATA_F="output-$OUTF_SUFFIX.csv"
 FRAME_F="$OUTF_SUFFIX.png"
 NBR_LOOPS=$1
+DOCKER_IMAGE=$2
 
 # test if the number of loops to execute is less than 1
 if [[ "$NBR_LOOPS" -lt "1" || "$NBR_LOOPS" == "" ]] ; then
   echo "==> error: the number of loops should be bigger that 1"
+  exit 1
+fi
+
+# simple test of docker image
+if [[ "$DOCKER_IMAGE" == "" ]] ; then
+  echo "==> error: a docker image should be specified"
   exit 1
 fi
 

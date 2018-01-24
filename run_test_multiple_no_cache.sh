@@ -31,7 +31,7 @@ for i in $(seq $NBR_LOOPS) ; do
   START_TIME_TEST=$SECONDS
 
   # install wget and get datasets from curate
-  apt-get install wget -y
+  DEBIAN_FRONTEND=noninteractive apt-get install wget -y
 
   # always download datasets
   wget https://curate.nd.edu/downloads/7h149p3117b -O WRC_RubiksCube.inc

@@ -53,7 +53,7 @@ for i in $(seq $NBR_LOOPS) ; do
   fi
 
   # run the test
-  docker run -it --rm --name $CONTAINER_NAME -v $PWD:/src $DOCKER_IMAGE /bin/bash -c "cd /src; ls -l; povray +I$DATASET_NAME +Oframe-$i-$FRAME_F +K.0  -H7500 -W7500; exit 0"
+  docker run -it --rm --name $CONTAINER_NAME -v $PWD:/src $DOCKER_IMAGE /bin/bash -c "cd /src; ls -l; povray +I$DATASET_NAME +Oframe-$i-$FRAME_F +K.0  -H1024 -W1024; exit 0"
 
   # remove docker container and image
   #docker rm -f $CONTAINER_NAME
